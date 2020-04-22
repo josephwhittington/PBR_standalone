@@ -10,6 +10,9 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 
+#include <fstream>
+#include <sstream>
+
 #include "Camera.h"
 #include "DDSTextureLoader.h"
 #include "Enums_globals.h"
@@ -22,6 +25,10 @@
 using namespace DirectX;
 
 // Globals
+
+// Settings
+float sensitivity = .25;
+
 // For initialization and utility
 ID3D11Device* device;
 IDXGISwapChain* swapchain;
@@ -148,6 +155,9 @@ void RenderPBRModel(Model& model);
 // Load Texture
 void LoadTextures(MeshHeader& header, Model& model);
 
+// Settings
+void LoadSettings();
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPWSTR    lpCmdLine,
@@ -269,11 +279,13 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
+	LoadSettings();
+
 	hInst = hInstance; // Store instance handle in our global variable
 
 	HWND hWnd = CreateWindowW(
 		szWindowClass,
-		szTitle,
+		L"Stand-alone Renderer",
 		WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
 		CW_USEDEFAULT,
 		0,
@@ -458,6 +470,24 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	ASSERT_HRESULT_SUCCESS(result);
 
 	return TRUE;
+}
+
+void LoadSettings()
+{
+	std::ifstream settings("settings.txt");
+	assert(settings.is_open());
+
+	// Look for mouse sensitivity
+	std::string line;
+	while (std::getline(settings, line))
+	{
+		if (line.find("#mouse_sensitivity") != std::string::npos)
+		{
+			std::getline(settings, line);
+			int sensitivity_i = std::stoi(line);
+			sensitivity = static_cast<float>(sensitivity_i) / 100.0f;
+		}
+	}
 }
 
 void RenderPBRModel(Model& model)
@@ -751,8 +781,6 @@ void HandleInput()
 	if (GetAsyncKeyState((int)BUTTONS::LETTER_R))//Reset Camera
 	{
 		camera.SetPosition(XMFLOAT3(0, 0, -5));
-
-
 	}
 
 
@@ -760,15 +788,12 @@ void HandleInput()
 	// Looking Mouse
 	if (GetAsyncKeyState(VK_LBUTTON))
 	{
-
 		float dX = g_cursor.prev.x - g_cursor.current.x;
 		float dY = g_cursor.prev.y - g_cursor.current.y;
 
 
-		camera.Rotate(0, dY);
-		camera.Rotate(dX, 0);
-
-
+		camera.Rotate(0, dY * sensitivity);
+		camera.Rotate(dX * sensitivity, 0);
 
 	}
 	//Looking Arrows
@@ -800,6 +825,7 @@ void HandleInput()
 		{
 			FOV += zoom_thresh;
 		}
+		camera.SetFOV(XMConvertToDegrees(FOV));
 	}
 	if (GetAsyncKeyState((int)BUTTONS::LETTER_E))//E Zoom Out
 	{
@@ -811,14 +837,16 @@ void HandleInput()
 		{
 			FOV -= zoom_thresh;
 		}
+
+		camera.SetFOV(XMConvertToDegrees(FOV));
 	}
 	if (GetAsyncKeyState((int)BUTTONS::LETTER_Z)) // Z Reset Zoom
 	{
 
 		FOV = 30 * WMATH_PI / 180.0f;
+		camera.SetFOV(XMConvertToDegrees(FOV));
 	}
 
-	camera.SetFOV(XMConvertToDegrees(FOV));
 
 
 	// Move light

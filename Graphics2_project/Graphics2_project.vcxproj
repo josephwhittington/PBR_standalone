@@ -214,6 +214,10 @@
   <ItemGroup>
     <None Include="todo.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="CONTROLS.txt" />
+    <Text Include="settings.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

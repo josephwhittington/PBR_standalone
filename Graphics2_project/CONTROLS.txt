@@ -1,0 +1,17 @@
+Camera controls
+WASD - local space
+
+Light Controls
+IJKL - Global space - don't ask SMH
+
+ZOOM
+QE
+
+Reset Camera 
+R
+
+Reset Light
+O
+
+Reset Zoom
+Z
