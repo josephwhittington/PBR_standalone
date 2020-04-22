@@ -103,8 +103,8 @@ struct Light
 
 struct
 {
-	struct { float x = 0, y =0;} prev;
-	struct { float x = 0, y = 0;} current;
+	struct { float x = 0, y = 0; } prev;
+	struct { float x = 0, y = 0; } current;
 } g_cursor;
 
 // Math globals
@@ -114,7 +114,7 @@ struct WorldViewProjection
 	XMFLOAT4X4 ViewMatrix;
 	XMFLOAT4X4 ProjectionMatrix;
 	XMFLOAT4 CameraPosition;
-} WORLD;	
+} WORLD;
 // Models
 Model model, groundplane;
 BUFFERS buffers;
@@ -149,30 +149,30 @@ void RenderPBRModel(Model& model);
 void LoadTextures(MeshHeader& header, Model& model);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPWSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ int       nCmdShow)
 {
-    UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: Place code here.
+	// TODO: Place code here.
 
-    // Initialize global strings
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_GRAPHICS2PROJECT, szWindowClass, MAX_LOADSTRING);
-    MyRegisterClass(hInstance);
+	// Initialize global strings
+	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+	LoadStringW(hInstance, IDC_GRAPHICS2PROJECT, szWindowClass, MAX_LOADSTRING);
+	MyRegisterClass(hInstance);
 
-    // Perform application initialization:
-    if (!InitInstance (hInstance, nCmdShow))
-    {
-        return FALSE;
-    }
+	// Perform application initialization:
+	if (!InitInstance(hInstance, nCmdShow))
+	{
+		return FALSE;
+	}
 
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_GRAPHICS2PROJECT));
+	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_GRAPHICS2PROJECT));
 
-    MSG msg;
-    // Main message loop:
+	MSG msg;
+	// Main message loop:
 	while (true)
 	{
 		PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
@@ -206,7 +206,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		// PBR
 		RenderPBRModel(model);
 		swapchain->Present(0, 0);
-    }
+	}
 
 	// Release a million fucking things
 	D3DSAFE_RELEASE(swapchain);
@@ -228,7 +228,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	CleanupModel(model);
 	CleanupModel(groundplane);
 
-    return (int) msg.wParam;
+	return (int)msg.wParam;
 }
 
 //
@@ -238,23 +238,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
-    WNDCLASSEXW wcex;
+	WNDCLASSEXW wcex;
 
-    wcex.cbSize = sizeof(WNDCLASSEX);
+	wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
-    wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_GRAPHICS2PROJECT));
-    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_GRAPHICS2PROJECT);
-    wcex.lpszClassName  = szWindowClass;
-    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc = WndProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = hInstance;
+	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_GRAPHICS2PROJECT));
+	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_GRAPHICS2PROJECT);
+	wcex.lpszClassName = szWindowClass;
+	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-    return RegisterClassExW(&wcex);
+	return RegisterClassExW(&wcex);
 }
 
 //
@@ -269,199 +269,199 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   hInst = hInstance; // Store instance handle in our global variable
+	hInst = hInstance; // Store instance handle in our global variable
 
-   HWND hWnd = CreateWindowW(
-	   szWindowClass, 
-	   szTitle,
-	   WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
-	   CW_USEDEFAULT, 
-	   0, 
-	   CW_USEDEFAULT, 
-	   0, 
-	   nullptr, 
-	   nullptr, 
-	   hInstance, 
-	   nullptr);
+	HWND hWnd = CreateWindowW(
+		szWindowClass,
+		szTitle,
+		WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
+		CW_USEDEFAULT,
+		0,
+		CW_USEDEFAULT,
+		0,
+		nullptr,
+		nullptr,
+		hInstance,
+		nullptr);
 
 
-   if (!hWnd)
-   {
-      return FALSE;
-   }
+	if (!hWnd)
+	{
+		return FALSE;
+	}
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
 
-   RECT rect;
-   GetClientRect(hWnd, &rect);
+	RECT rect;
+	GetClientRect(hWnd, &rect);
 
-   // Attach d3d to the window
-   D3D_FEATURE_LEVEL DX11 = D3D_FEATURE_LEVEL_11_0;
-   DXGI_SWAP_CHAIN_DESC swap;
-   ZeroMemory(&swap, sizeof(DXGI_SWAP_CHAIN_DESC));
-   swap.BufferCount = 1;
-   swap.OutputWindow = hWnd;
-   swap.Windowed = true;
-   swap.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-   swap.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-   swap.BufferDesc.Width = rect.right - rect.left;
-   swap.BufferDesc.Height = rect.bottom - rect.top;
-   swap.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-   swap.SampleDesc.Count = 1;
+	// Attach d3d to the window
+	D3D_FEATURE_LEVEL DX11 = D3D_FEATURE_LEVEL_11_0;
+	DXGI_SWAP_CHAIN_DESC swap;
+	ZeroMemory(&swap, sizeof(DXGI_SWAP_CHAIN_DESC));
+	swap.BufferCount = 1;
+	swap.OutputWindow = hWnd;
+	swap.Windowed = true;
+	swap.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+	swap.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	swap.BufferDesc.Width = rect.right - rect.left;
+	swap.BufferDesc.Height = rect.bottom - rect.top;
+	swap.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	swap.SampleDesc.Count = 1;
 
-   aspectRatio = swap.BufferDesc.Width / (float)swap.BufferDesc.Height;
+	aspectRatio = swap.BufferDesc.Width / (float)swap.BufferDesc.Height;
 
-   HRESULT result;
+	HRESULT result;
 #ifdef _DEBUG
-   result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, D3D11_CREATE_DEVICE_DEBUG, &DX11, 1, D3D11_SDK_VERSION, &swap, &swapchain, &device, 0, &deviceContext);
-   ASSERT_HRESULT_SUCCESS(result);
+	result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, D3D11_CREATE_DEVICE_DEBUG, &DX11, 1, D3D11_SDK_VERSION, &swap, &swapchain, &device, 0, &deviceContext);
+	ASSERT_HRESULT_SUCCESS(result);
 #else
-   result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &DX11, 1, D3D11_SDK_VERSION, &swap, &swapchain, &device, 0, &deviceContext);
-   ASSERT_HRESULT_SUCCESS(result);
+	result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &DX11, 1, D3D11_SDK_VERSION, &swap, &swapchain, &device, 0, &deviceContext);
+	ASSERT_HRESULT_SUCCESS(result);
 #endif
 
-   ID3D11Resource* backbuffer;
-   result = swapchain->GetBuffer(0, __uuidof(backbuffer), (void**)&backbuffer);
-   result = device->CreateRenderTargetView(backbuffer, NULL, &renderTargetView);
+	ID3D11Resource* backbuffer;
+	result = swapchain->GetBuffer(0, __uuidof(backbuffer), (void**)&backbuffer);
+	result = device->CreateRenderTargetView(backbuffer, NULL, &renderTargetView);
 
-   // Release the resource to decrement the counter by one
-   // This is necessary to keep the thing from leaking memory
-   backbuffer->Release();
+	// Release the resource to decrement the counter by one
+	// This is necessary to keep the thing from leaking memory
+	backbuffer->Release();
 
-   // Setup viewport
-   viewport.Width = swap.BufferDesc.Width;
-   viewport.Height = swap.BufferDesc.Height;
-   viewport.TopLeftY = viewport.TopLeftX = 0;
-   viewport.MinDepth = 0;
-   viewport.MaxDepth = 1;
+	// Setup viewport
+	viewport.Width = swap.BufferDesc.Width;
+	viewport.Height = swap.BufferDesc.Height;
+	viewport.TopLeftY = viewport.TopLeftX = 0;
+	viewport.MinDepth = 0;
+	viewport.MaxDepth = 1;
 
-   // Rasterizer state
-   D3D11_RASTERIZER_DESC rdesc;
-   ZeroMemory(&rdesc, sizeof(D3D11_RASTERIZER_DESC));
-   rdesc.FrontCounterClockwise = false;
-   rdesc.DepthBiasClamp = 1;
-   rdesc.DepthBias = rdesc.SlopeScaledDepthBias = 0;
-   rdesc.DepthClipEnable = true;
-   rdesc.FillMode = D3D11_FILL_SOLID;
-   rdesc.CullMode = D3D11_CULL_BACK;
-   rdesc.AntialiasedLineEnable = false;
-   rdesc.MultisampleEnable = false;
+	// Rasterizer state
+	D3D11_RASTERIZER_DESC rdesc;
+	ZeroMemory(&rdesc, sizeof(D3D11_RASTERIZER_DESC));
+	rdesc.FrontCounterClockwise = false;
+	rdesc.DepthBiasClamp = 1;
+	rdesc.DepthBias = rdesc.SlopeScaledDepthBias = 0;
+	rdesc.DepthClipEnable = true;
+	rdesc.FillMode = D3D11_FILL_SOLID;
+	rdesc.CullMode = D3D11_CULL_BACK;
+	rdesc.AntialiasedLineEnable = false;
+	rdesc.MultisampleEnable = false;
 
-   device->CreateRasterizerState(&rdesc, &rasterizerStateDefault);
+	device->CreateRasterizerState(&rdesc, &rasterizerStateDefault);
 
-   // Wire frame Rasterizer State
-   ZeroMemory(&rdesc, sizeof(D3D11_RASTERIZER_DESC));
-   rdesc.FillMode = D3D11_FILL_WIREFRAME;
-   rdesc.CullMode = D3D11_CULL_NONE;
-   rdesc.DepthClipEnable = true;
+	// Wire frame Rasterizer State
+	ZeroMemory(&rdesc, sizeof(D3D11_RASTERIZER_DESC));
+	rdesc.FillMode = D3D11_FILL_WIREFRAME;
+	rdesc.CullMode = D3D11_CULL_NONE;
+	rdesc.DepthClipEnable = true;
 
-   device->CreateRasterizerState(&rdesc, &rasterizerStateWireframe);
+	device->CreateRasterizerState(&rdesc, &rasterizerStateWireframe);
 
-   deviceContext->RSSetState(rasterizerStateDefault);
+	deviceContext->RSSetState(rasterizerStateDefault);
 
-   // Initialize camera
-   camera.SetPosition(XMFLOAT3(0, 0, -5));
-   camera.SetFOV(30);
+	// Initialize camera
+	camera.SetPosition(XMFLOAT3(0, 0, -5));
 
-   // TEAPOT
-   InitializeWModel(model, "assets/models/Test_Spyro.wobj", XMFLOAT3(0, -1, 0), base_vs, base_ps, sizeof(base_vs), sizeof(base_ps));
-   // TEAPOT
+	camera.SetFOV(30);
 
-   // LIGHTS GO HERE
-   Light light;
-   ZeroMemory(&light, sizeof(Light));
-   light.lightType = (int)LIGHTTYPE::DIRECTIONAL;
-   light.ambientUp = XMFLOAT4(1, 1, 1, 1);
-   light.ambientDown = XMFLOAT4(1, 1, 1, 1);
-   light.ambientIntensityDown = .2;
-   light.ambientIntensityUp = .4;
-   light.diffuse = XMFLOAT4(1, 1, 1, 1);
-   light.lightDirection = XMFLOAT4(2, -1, 3, 1);
-   light.diffuseIntensity = 1;
-   light.specular = XMFLOAT4(1, 1, 1, 1);
-   light.specularIntensity = .2;
-   lights.push_back(light);
+	// TEAPOT
+	InitializeWModel(model, "assets/models/Test_Spyro.wobj", XMFLOAT3(0, -1, 0), base_vs, base_ps, sizeof(base_vs), sizeof(base_ps));
+	// TEAPOT
 
-   ZeroMemory(&light, sizeof(Light));
-   light.lightType = (int)LIGHTTYPE::POINT;
-   light.ambientUp = XMFLOAT4(0, 0, 1, 1);
-   light.ambientDown = XMFLOAT4(0, 1, 0, 1);
-   light.ambientIntensityDown = .05;
-   light.ambientIntensityUp = .1;
-   light.diffuse = light.specular = XMFLOAT4(0, 0, 1, 1);
-   light.diffuseIntensity = .8;
-   light.specularIntensity = .4;
-   light.position = XMFLOAT4(2, 0, -2, 1);
-   light.lightRadius = 8;
-   lights.push_back(light);
-   
-   ZeroMemory(&light, sizeof(Light));
-   light.lightType = (int)LIGHTTYPE::SPOT;
-   light.ambientUp = XMFLOAT4(0, 0, 1, 1);
-   light.ambientDown = XMFLOAT4(0, 1, 0, 1);
-   light.ambientIntensityDown = .05;
-   light.ambientIntensityUp = .1;
-   light.diffuse = light.specular = XMFLOAT4(1, 1, 1, 1);
-   light.diffuseIntensity = .8;
-   light.specularIntensity = .4;
-   light.position = XMFLOAT4(0, 10, 0, 1);
-   light.lightDirection = XMFLOAT4(0, -1, 0, 1);
-   light.lightRadius = 0;
-   light.cosineInnerCone = cosf(XMConvertToRadians(5));
-   light.cosineOuterCone = cosf(XMConvertToRadians(25));
-   lights.push_back(light);
-   // LIGHTS GO HERE
+	// LIGHTS GO HERE
+	Light light;
+	ZeroMemory(&light, sizeof(Light));
+	light.lightType = (int)LIGHTTYPE::DIRECTIONAL;
+	light.ambientUp = XMFLOAT4(1, 1, 1, 1);
+	light.ambientDown = XMFLOAT4(1, 1, 1, 1);
+	light.ambientIntensityDown = .2;
+	light.ambientIntensityUp = .4;
+	light.diffuse = XMFLOAT4(1, 1, 1, 1);
+	light.lightDirection = XMFLOAT4(2, -1, 3, 1);
+	light.diffuseIntensity = 1;
+	light.specular = XMFLOAT4(1, 1, 1, 1);
+	light.specularIntensity = .2;
+	lights.push_back(light);
 
-   deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	ZeroMemory(&light, sizeof(Light));
+	light.lightType = (int)LIGHTTYPE::POINT;
+	light.ambientUp = XMFLOAT4(0, 0, 1, 1);
+	light.ambientDown = XMFLOAT4(0, 1, 0, 1);
+	light.ambientIntensityDown = .05;
+	light.ambientIntensityUp = .1;
+	light.diffuse = light.specular = XMFLOAT4(0, 0, 1, 1);
+	light.diffuseIntensity = .8;
+	light.specularIntensity = .4;
+	light.position = XMFLOAT4(0, 0, 0, 1);
+	light.lightRadius = 8;
+	lights.push_back(light);
 
-   // Create constant buffer
-   D3D11_BUFFER_DESC bDesc;
-   D3D11_SUBRESOURCE_DATA subdata;
-   ZeroMemory(&bDesc, sizeof(D3D11_BUFFER_DESC));
+	ZeroMemory(&light, sizeof(Light));
+	light.lightType = (int)LIGHTTYPE::SPOT;
+	light.ambientUp = XMFLOAT4(0, 0, 1, 1);
+	light.ambientDown = XMFLOAT4(0, 1, 0, 1);
+	light.ambientIntensityDown = .05;
+	light.ambientIntensityUp = .1;
+	light.diffuse = light.specular = XMFLOAT4(1, 1, 1, 1);
+	light.diffuseIntensity = .8;
+	light.specularIntensity = .4;
+	light.position = XMFLOAT4(0, 10, 0, 1);
+	light.lightDirection = XMFLOAT4(0, -1, 0, 1);
+	light.lightRadius = 0;
+	light.cosineInnerCone = cosf(XMConvertToRadians(5));
+	light.cosineOuterCone = cosf(XMConvertToRadians(25));
+	lights.push_back(light);
+	// LIGHTS GO HERE
 
-   bDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-   bDesc.ByteWidth = sizeof(WorldViewProjection);
-   bDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-   bDesc.MiscFlags = 0;
-   bDesc.StructureByteStride = 0;
-   bDesc.Usage = D3D11_USAGE_DYNAMIC;
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-   result = device->CreateBuffer(&bDesc, nullptr, &constantBuffer);
-   ASSERT_HRESULT_SUCCESS(result);
+	// Create constant buffer
+	D3D11_BUFFER_DESC bDesc;
+	D3D11_SUBRESOURCE_DATA subdata;
+	ZeroMemory(&bDesc, sizeof(D3D11_BUFFER_DESC));
 
-   // Create light buffer
-   bDesc.ByteWidth = lights.size() * sizeof(Light);
-   
-   result = device->CreateBuffer(&bDesc, nullptr, &lightBuffer);
-   ASSERT_HRESULT_SUCCESS(result);
+	bDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bDesc.ByteWidth = sizeof(WorldViewProjection);
+	bDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	bDesc.MiscFlags = 0;
+	bDesc.StructureByteStride = 0;
+	bDesc.Usage = D3D11_USAGE_DYNAMIC;
 
-   // Z buffer 
-   D3D11_TEXTURE2D_DESC zDesc;
-   ZeroMemory(&zDesc, sizeof(zDesc));
-   zDesc.ArraySize = 1;
-   zDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-   zDesc.Width = swap.BufferDesc.Width;
-   zDesc.Height = swap.BufferDesc.Height;
-   zDesc.Usage = D3D11_USAGE_DEFAULT;
-   zDesc.Format = DXGI_FORMAT_D32_FLOAT;
-   zDesc.MipLevels = 1;
-   zDesc.SampleDesc.Count = 1;
+	result = device->CreateBuffer(&bDesc, nullptr, &constantBuffer);
+	ASSERT_HRESULT_SUCCESS(result);
 
-   result = device->CreateTexture2D(&zDesc, nullptr, &zBuffer);
+	// Create light buffer
+	bDesc.ByteWidth = lights.size() * sizeof(Light);
 
-   D3D11_DEPTH_STENCIL_DESC zViewDesc;
-   ZeroMemory(&zViewDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
+	result = device->CreateBuffer(&bDesc, nullptr, &lightBuffer);
+	ASSERT_HRESULT_SUCCESS(result);
 
-   result = device->CreateDepthStencilView(zBuffer, nullptr, &depthStencil);
-   ASSERT_HRESULT_SUCCESS(result);
+	// Z buffer 
+	D3D11_TEXTURE2D_DESC zDesc;
+	ZeroMemory(&zDesc, sizeof(zDesc));
+	zDesc.ArraySize = 1;
+	zDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	zDesc.Width = swap.BufferDesc.Width;
+	zDesc.Height = swap.BufferDesc.Height;
+	zDesc.Usage = D3D11_USAGE_DEFAULT;
+	zDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	zDesc.MipLevels = 1;
+	zDesc.SampleDesc.Count = 1;
 
-   return TRUE;
+	result = device->CreateTexture2D(&zDesc, nullptr, &zBuffer);
+
+	D3D11_DEPTH_STENCIL_DESC zViewDesc;
+	ZeroMemory(&zViewDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
+
+	result = device->CreateDepthStencilView(zBuffer, nullptr, &depthStencil);
+	ASSERT_HRESULT_SUCCESS(result);
+
+	return TRUE;
 }
 
 void RenderPBRModel(Model& model)
 {
-
 	// TEAPOT
 	// World matrix projection
 	XMMATRIX temp = XMMatrixIdentity();
@@ -470,12 +470,15 @@ void RenderPBRModel(Model& model)
 	XMStoreFloat4x4(&WORLD.WorldMatrix, temp);
 	// View
 	camera.GetViewMatrix(temp);
+
 	XMStoreFloat4x4(&WORLD.ViewMatrix, temp);
 	// Projection
-	temp = XMMatrixPerspectiveFovLH(camera.GetFOV(), aspectRatio, 0.1f, 1000);
+	temp = XMMatrixPerspectiveFovLH(camera.GetFOV(), aspectRatio, camera.GetNear(), camera.GetFar());
 	XMStoreFloat4x4(&WORLD.ProjectionMatrix, temp);
 	XMFLOAT3 campos = camera.GetPosition();
 	WORLD.CameraPosition = XMFLOAT4(campos.x, campos.y, campos.z, 1);
+
+
 
 	// Send the matrix to constant buffer
 	D3D11_MAPPED_SUBRESOURCE gpuBuffer;
@@ -536,6 +539,7 @@ void RenderPhongModel(Model& model)
 	XMStoreFloat4x4(&WORLD.WorldMatrix, temp);
 	// View
 	camera.GetViewMatrix(temp);
+
 	XMStoreFloat4x4(&WORLD.ViewMatrix, temp);
 	// Projection
 	temp = XMMatrixPerspectiveFovLH(camera.GetFOV(), aspectRatio, 0.1f, 1000);
@@ -736,16 +740,38 @@ void HandleInput()
 		direction.z *= -move_thresh;
 		camera.Move(direction);
 	}
-	else if (GetAsyncKeyState((int)BUTTONS::LETTER_Z))
+	else if (GetAsyncKeyState(VK_SPACE))
 	{
 		camera.Move(XMFLOAT3(0, move_thresh, 0));
 	}
-	else if (GetAsyncKeyState((int)BUTTONS::LETTER_X))
+	else if (GetAsyncKeyState(VK_LCONTROL))
 	{
 		camera.Move(XMFLOAT3(0, -move_thresh, 0));
 	}
+	if (GetAsyncKeyState((int)BUTTONS::LETTER_R))//Reset Camera
+	{
+		camera.SetPosition(XMFLOAT3(0, 0, -5));
 
-	// Looking
+
+	}
+
+
+
+	// Looking Mouse
+	if (GetAsyncKeyState(VK_LBUTTON))
+	{
+
+		float dX = g_cursor.prev.x - g_cursor.current.x;
+		float dY = g_cursor.prev.y - g_cursor.current.y;
+
+
+		camera.Rotate(0, dY);
+		camera.Rotate(dX, 0);
+
+
+
+	}
+	//Looking Arrows
 	if (GetAsyncKeyState(VK_UP))
 	{
 		camera.Rotate(0, look_thresh);
@@ -763,24 +789,62 @@ void HandleInput()
 		camera.Rotate(-look_thresh, 0);
 	}
 
+	//ZOOM
+	float FOV = camera.GetFOV();
+	float zoom_thresh = 0.001f;
+	if (GetAsyncKeyState((int)BUTTONS::LETTER_Q))//Zoom In
+	{
+		FOV -= zoom_thresh;
+
+		if (FOV <= .03f)
+		{
+			FOV += zoom_thresh;
+		}
+	}
+	if (GetAsyncKeyState((int)BUTTONS::LETTER_E))//E Zoom Out
+	{
+
+
+		FOV += zoom_thresh;
+
+		if (FOV >= 2.0f)
+		{
+			FOV -= zoom_thresh;
+		}
+	}
+	if (GetAsyncKeyState((int)BUTTONS::LETTER_Z)) // Z Reset Zoom
+	{
+
+		FOV = 30 * WMATH_PI / 180.0f;
+	}
+
+	camera.SetFOV(XMConvertToDegrees(FOV));
+
+
 	// Move light
-	float lightthresh = 0.01;
+	static int swapLight = 1;
+	static float lightthresh = 0.01f;
 	if (GetAsyncKeyState((int)BUTTONS::LETTER_I))
 	{
-		lights[2].position.z += lightthresh;
+		lights[swapLight].position.z += lightthresh;
 	}
 	else if (GetAsyncKeyState((int)BUTTONS::LETTER_K))
 	{
-		lights[2].position.z -= lightthresh;
+		lights[swapLight].position.z -= lightthresh;
 	}
 	else if (GetAsyncKeyState((int)BUTTONS::LETTER_J))
 	{
-		lights[2].position.x -= lightthresh;
+		lights[swapLight].position.x -= lightthresh;
 	}
 	else if (GetAsyncKeyState((int)BUTTONS::LETTER_L))
 	{
-		lights[2].position.x += lightthresh;
+		lights[swapLight].position.x += lightthresh;
 	}
+	else if (GetAsyncKeyState((int)BUTTONS::LETTER_O))
+	{
+		lights[swapLight].position = { 0,0,0,1 };
+	}
+
 }
 
 void LoadTextures(MeshHeader& header, Model& _model)
@@ -800,19 +864,19 @@ void LoadTextures(MeshHeader& header, Model& _model)
 	spath = std::string("assets/textures/").append(spath);
 	wpath = std::wstring(spath.begin(), spath.end());
 	result = CreateDDSTextureFromFile(device, wpath.c_str(), nullptr, &_model.normal);
-	
+
 	// Metallic
 	spath = header.t_metallic;
 	spath = std::string("assets/textures/").append(spath);
 	wpath = std::wstring(spath.begin(), spath.end());
 	result = CreateDDSTextureFromFile(device, wpath.c_str(), nullptr, &_model.metallic);
-	
+
 	// Roughness
 	spath = header.t_roughness;
 	spath = std::string("assets/textures/").append(spath);
 	wpath = std::wstring(spath.begin(), spath.end());
 	result = CreateDDSTextureFromFile(device, wpath.c_str(), nullptr, &_model.roughness);
-	
+
 	// AO
 	spath = header.t_ambient_occlusion;
 	spath = std::string("assets/textures/").append(spath);
@@ -846,28 +910,28 @@ void LoadTextures(MeshHeader& header, Model& _model)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    switch (message)
-    {
-    case WM_COMMAND:
-        {
-            int wmId = LOWORD(wParam);
-            // Parse the menu selections:
-            switch (wmId)
-            {
-            case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                break;
-            case IDM_EXIT:
-                DestroyWindow(hWnd);
-                break;
-            default:
-                return DefWindowProc(hWnd, message, wParam, lParam);
-            }
-        }
-        break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
+	switch (message)
+	{
+	case WM_COMMAND:
+	{
+		int wmId = LOWORD(wParam);
+		// Parse the menu selections:
+		switch (wmId)
+		{
+		case IDM_ABOUT:
+			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+			break;
+		case IDM_EXIT:
+			DestroyWindow(hWnd);
+			break;
+		default:
+			return DefWindowProc(hWnd, message, wParam, lParam);
+		}
+	}
+	break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
 	case WM_MOUSEMOVE:
 	{
 		g_cursor.prev.x = g_cursor.current.x;
@@ -877,28 +941,28 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		g_cursor.current.y = GET_Y_LPARAM(lParam);
 		break;
 	}
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    return 0;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+	return 0;
 }
 
 // Message handler for about box.
 INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    UNREFERENCED_PARAMETER(lParam);
-    switch (message)
-    {
-    case WM_INITDIALOG:
-        return (INT_PTR)TRUE;
+	UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		return (INT_PTR)TRUE;
 
-    case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-        {
-            EndDialog(hDlg, LOWORD(wParam));
-            return (INT_PTR)TRUE;
-        }
-        break;
-    }
-    return (INT_PTR)FALSE;
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+		{
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+		break;
+	}
+	return (INT_PTR)FALSE;
 }
